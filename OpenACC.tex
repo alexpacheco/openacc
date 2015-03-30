@@ -1,0 +1,801 @@
+\documentclass[c,mathserif,compress,xcolor=svgnames]{beamer} 
+\mode<presentation>
+{  
+  \setbeamertemplate{background canvas}[vertical shading][bottom=blue!5,top=blue!5]
+  \setbeamertemplate{navigation symbols}{}%{\insertsectionnavigationsymbol}
+    \usetheme{LSU}
+%  default infolines miniframes shadow sidebar smoothbars smoothtree split tree
+%    \useoutertheme{shadow}
+}
+
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,amsfonts,subfigure}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{fancyvrb,listings}
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\scriptsize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{red!90!white},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+\lstdefinelanguage{OmpFortran}[]{Fortran}{
+   rulesepcolor=\color{black},
+   %
+   extendedchars=true,
+   %
+   morecomment=[l] [\bfseries\color{red!90!white}]{!\$omp},
+   morecomment=[l] [\bfseries\color{red!90!white}]{c\$omp},
+   morecomment=[l] [\bfseries\color{red!90!white}]{*\$omp},
+   morecomment=[l] [\bfseries\color{red!90!white}]{!\$acc},
+   morecomment=[l] [\bfseries\color{red!90!white}]{c\$acc},
+   morecomment=[l] [\bfseries\color{red!90!white}]{*\$acc},
+}[comments]
+
+\lstdefinelanguage{OmpC}[]{OmpFortran}{
+   rulesepcolor=\color{black},
+   %
+   extendedchars=true,
+   %
+   morecomment=[l] [\bfseries\color{red!90!white}]{\#pragma\ omp},
+   morecomment=[l] [\bfseries\color{red!90!white}]{\#pragma\ acc},
+}[comments]
+
+\lstset{escapechar=@,style=customc}
+\lstset{literate=%
+   *{0}{{{\color{blue}0}}}1
+    {1}{{{\color{blue}1}}}1
+    {2}{{{\color{blue}2}}}1
+    {3}{{{\color{blue}3}}}1
+    {4}{{{\color{blue}4}}}1
+    {5}{{{\color{blue}5}}}1
+    {6}{{{\color{blue}6}}}1
+    {7}{{{\color{blue}7}}}1
+    {8}{{{\color{blue}8}}}1
+    {9}{{{\color{blue}9}}}1
+}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,automata}
+\usetikzlibrary{calc,fit,shadows,patterns}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\usepackage[latin1]{inputenc}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage[normalem]{ulem}
+% \usepackage{movie15}
+\hypersetup{
+  pdftitle={Introduction to OpenACC},
+  pdfauthor={Alexander B. Pacheco, User Services Consultant, Louisiana State University}
+}
+%\usepackage{movie15}
+\usepackage{times}
+\setbeamercovered{dynamic}
+\beamersetaveragebackground{DarkBlue!2}
+\beamertemplateballitem
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\definecolor{DarkGreen}{rgb}{0.0,0.3,0.0}
+\definecolor{darkgreen}{rgb}{0.0,0.6,0.0}
+\definecolor{Blue}{rgb}{0.0,0.0,0.8} 
+\definecolor{dodgerblue}{rgb}{0.1,0.1,1.0}
+\definecolor{indigo}{rgb}{0.41,0.1,0.0}
+\definecolor{seagreen}{rgb}{0.1,1.0,0.1}
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\newcommand*\up{\textcolor{green}{%
+  \ensuremath{\blacktriangle}}}
+\newcommand*\down{\textcolor{red}{%
+  \ensuremath{\blacktriangledown}}}
+\newcommand*\const{\textcolor{darkgray}%
+  {\textbf{--}}}
+
+\setbeamercolor{uppercol}{fg=white,bg=red!30!black}%
+\setbeamercolor{lowercol}{fg=black,bg=red!15!white}%
+\setbeamercolor{uppercol1}{fg=white,bg=blue!30!black}%
+\setbeamercolor{lowercol1}{fg=black,bg=blue!15!white}%%
+\setbeamercolor{uppercol2}{fg=white,bg=green!30!black}%
+\setbeamercolor{lowercol2}{fg=black,bg=green!15!white}%
+\newenvironment{colorblock}[4]
+{
+\setbeamercolor{upperblock}{fg=#1,bg=#2}
+\setbeamercolor{lowerblock}{fg=#3,bg=#4}
+\begin{beamerboxesrounded}[upper=upperblock,lower=lowerblock,shadow=true]}
+{\end{beamerboxesrounded}}
+\newenvironment{ablock}[0]
+{
+\begin{beamerboxesrounded}[upper=uppercol,lower=lowercol,shadow=true]}
+{\end{beamerboxesrounded}}
+\newenvironment{bblock}[0]
+{
+\begin{beamerboxesrounded}[upper=uppercol1,lower=lowercol1,shadow=true]}
+{\end{beamerboxesrounded}}
+\newenvironment{eblock}[0]
+{
+\begin{beamerboxesrounded}[upper=uppercol2,lower=lowercol2,shadow=true]}
+{\end{beamerboxesrounded}}
+
+% Fix font size of nested itemize/enumerate
+\setbeamerfont{itemize/enumerate body}{}
+\setbeamerfont{itemize/enumerate subbody}{size=\scriptsize}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\scriptsize}
+
+\title[OpenMP]{Introduction to OpenACC}
+
+
+\author[Alex Pacheco]{\large{Alexander~B.~Pacheco}}
+       
+\institute[HPC@LSU - http://www.hpc.lsu.edu] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
+
+\date[{June 10-12, 2013\hspace{2cm}}]{\scriptsize{LONI Parallel Programming Workshop\\Louisiana State University\\Baton Rouge\\June 10-12, 2013}}
+     
+\subject{Talks}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% Main Logo on bottom left
+\pgfdeclareimage[height=0.55cm]{its-logo}{LONI}
+\logo{\pgfuseimage{its-logo}}
+% University Logo on top left
+\pgfdeclareimage[height=0.55cm]{university-logo}{LSUGeauxPurp}
+\tllogo{\pgfuseimage{university-logo}}
+% Logo at top right
+\pgfdeclareimage[height=0.5cm]{institute-logo}{its-logo}
+\trlogo{\pgfuseimage{institute-logo}}
+% Logo at bottom right
+\pgfdeclareimage[height=0.48cm]{hpc-logo}{cct-logo}
+\brlogo{\pgfuseimage{hpc-logo}}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%  \AtBeginSection[]
+%  {
+%    \begin{frame}<beamer>
+%     \frametitle{\small{Outline}}
+%      \small
+%      \tableofcontents[currentsection,currentsubsection]
+%    \end{frame}
+%  }
+
+\begin{document}
+\footnotesize
+
+\tikzstyle{every picture}+=[remember picture]
+\frame{\titlepage}
+
+%\begin{frame}[label=toc,squeeze]
+%  \footnotesize
+%  \frametitle{\small{Outline}}
+%  \tableofcontents
+%\end{frame}
+
+
+%\part{Introduction}
+%\section{Introduction}
+%\begin{frame}<0>
+%  \frametitle{\small Goals}
+%  \large{
+%  \begin{block}{}
+%    \begin{itemize}
+%      \item Acquaint users with the concepts of shared memory parallelism.
+%      \item Acquaint users with the basics of programming with OpenMP.
+%    \end{itemize}
+%  \end{block}
+%  }
+%\end{frame}
+
+\begin{frame}{\small What is OpenACC?}
+  \begin{bblock}{}
+    \begin{itemize}
+      \item OpenACC Application Program Interface describes a collection of compiler directive to specify loops and regions of code in standard C, C++ and Fortran to be offloaded from a host CPU to an attached acclerator.
+      \item provides portability across operating systems, host CPUs and accelerators
+    \end{itemize}
+  \end{bblock}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{\small OpenACC}
+  \begin{eblock}{The Standard for GPU Directives}
+    \begin{description}
+      \item[Simple:] Directive are the easy path to accelerate compute intensive applications
+      \item[Open:] OpenACC is an open GPU directives standard, making GPU programming straightforwards and portable across parallel and multi-core processors
+      \item[Powerful:] GPU directives allow complete access to the massive parallel power of a GPU
+    \end{description}
+  \end{eblock}
+  \framebreak
+  \begin{eblock}{High Level}
+    \begin{itemize}
+      \item Compiler directives to specify parallel regions in C \& Fortran
+      \begin{itemize}
+        \item Offload parallel regions
+        \item Portable across OSes, host CPUs, accelerators, and compilers
+      \end{itemize}
+      \item Create high-level heterogenous programs
+      \begin{itemize}
+        \item Without explicit accelerator intialization
+        \item Without explicit data or program transfers between host and accelerator
+      \end{itemize}
+    \end{itemize}
+  \end{eblock}
+  \begin{eblock}{High Level $\cdots$ with low-level access}
+    \begin{itemize}
+      \item Programming model allows programmers to start simple
+      \item Compiler gives additional guidance
+      \begin{itemize}
+        \item Loop mappings, data location and other performance details
+      \end{itemize}
+      \item Compatible with other GPU languages and libraries
+      \begin{itemize}
+        \item Interoperate between CUDA C/Fortran and GPU libraries
+        \item e.g. CUFFT, CUBLAS, CUSPARSE, etc
+      \end{itemize}
+    \end{itemize}
+  \end{eblock}
+\end{frame}
+
+\begin{frame}{\small Why OpenACC}
+  \begin{eblock}{}
+    \begin{itemize}
+      \item Directives are easy and powerful.
+      \item Avoid restructuring of existing code for production applications.
+      \item Focus on expressing parallelism.
+    \end{itemize}
+  \end{eblock}
+  \vspace{1cm}
+  \begin{ablock}{}
+    \begin{center}
+      \vspace{0.1cm}
+      \Large{\color{red!80!black}OpenACC is not GPU Programming}\\
+      \vspace{1cm}
+      \Large{\color{red!80!black}OpenACC is Expressing Parallelism in your code}
+    \end{center}
+  \end{ablock}
+\end{frame}
+
+\begin{frame}[fragile]{\small Simple Example {\color{black}I}}
+  \begin{eblock}{Serial Code}
+    \lstinputlisting[basicstyle=\fontsize{5}{6}\selectfont\ttfamily,language=OmpFortran]{./openmp/saxpy/solution/saxpy.f90} 
+  \end{eblock}
+\end{frame}
+\begin{frame}[fragile]{\small Simple Example {\color{black}II}}
+  \begin{eblock}{OpenMP Code}
+    \lstinputlisting[basicstyle=\fontsize{5}{6}\selectfont\ttfamily,language=OmpFortran]{./openmp/saxpy/solution/saxpy_omp.f90} 
+  \end{eblock}
+\end{frame}
+\begin{frame}[fragile]{\small Simple Example {\color{black}III}}
+  \begin{eblock}{OpenACC Code}
+    \lstinputlisting[basicstyle=\fontsize{5}{6}\selectfont\ttfamily,language=OmpFortran]{./openmp/saxpy/solution/saxpy_acc.f90} 
+  \end{eblock}
+\end{frame}
+\begin{frame}[fragile]{\small Simple Example {\color{black}IV}}
+  \begin{eblock}{CUDA Fortran Code}
+    \lstinputlisting[basicstyle=\fontsize{5}{6}\selectfont\ttfamily,language=OmpFortran]{./openmp/saxpy/solution/saxpy_cuda.f90} 
+  \end{eblock}
+\end{frame}
+
+\begin{frame}[fragile]{\small Simple Example {\color{black}V}}
+  \begin{eblock}{Compile}
+    {\tiny
+      \begin{Verbatim}
+[apacheco@philip038 2013-LONI]$ pgf90 -o saxpy saxpy.f90
+[apacheco@philip038 2013-LONI]$ pgf90 -mp -o saxpy_omp saxpy_omp.f90
+[apacheco@philip038 2013-LONI]$ pgf90 -acc -ta=nvidia -o saxpy_acc saxpy_acc.f90
+[apacheco@philip038 2013-LONI]$ pgf90 -o saxpy_cuda saxpy.cuf
+      \end{Verbatim}
+    }
+  \end{eblock}
+  \begin{eblock}{Speed Up}
+    \begin{tabular}{|cccc|}
+      \hline
+      Algorithm & Device & Time (s) & Speedup \\
+      \hline
+      Serial & Xeon X5650 & 0.231282 & 1\\
+      OpenMP (12 threads) & Xeon X5650 & 0.063231 & 3.6x\\
+      OpenACC & M2070 & 0.014329 & 16.1x\\
+      CUDA & M2070 & 0.006901 & 33.5x\\
+      \hline
+    \end{tabular}
+  \end{eblock}
+\end{frame}
+
+\begin{frame}{\small OpenACC Execution Model}
+  \begin{eblock}{}
+    \begin{itemize}
+      \item Application code runs on the CPU (sequential, shared or distributed memory)
+      \item OpenACC directives indicate that the following block of compute intensive code needs to be offloaded to the GPU or accelerator.
+    \end{itemize}
+    \vspace{-0.5cm}
+    \include{openacc-exec}
+  \end{eblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Building Block of OpenACC}
+  \begin{eblock}{}
+    \begin{itemize}
+      \item Program directives
+        \begin{itemize}
+          \item Syntax
+            \begin{itemize}
+              \item C/C++: \texttt{\#pragma acc <directive> [clause]}
+              \item Fortran: \texttt{!\$acc <directive> [clause]}
+            \end{itemize}
+          \item Regions
+          \item Loops
+          \item Synchronization
+          \item Data Structure
+          \item $\cdots$
+        \end{itemize}
+      \item Runtime library routines
+%      \item Environment variables
+    \end{itemize}
+  \end{eblock}
+\end{frame}
+
+\begin{frame}{\small Clauses}
+  \begin{itemize}
+    \item if (condition)
+    \item async (expression)
+    \item data management clauses
+    \begin{itemize}
+      \item copy($\cdots$),copyin($\cdots$), copyout($\cdots$)
+      \item create($\cdots$), present($\cdots$)
+      \item present\_or\_copy\{,in,out\}($\cdots$) or pcopy\{,in,out\}($\cdots$)
+      \item present\_or\_create($\cdots$) or pcreate($\cdots$)
+    \end{itemize}
+    \item reduction(operator:list)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\small Runtime Libraries}
+  \begin{itemize}
+    \item System setup routines
+    \begin{itemize}
+      \item acc\_init(\textit{acc\_device\_nvidia})
+      \item acc\_set\_device\_type(\textit{acc\_device\_nvidia})
+      \item acc\_set\_device\_num(\textit{acc\_device\_nvidia})
+    \end{itemize}
+    \item Synchronization routines
+    \begin{itemize}
+      \item acc\_async\_wait(int)
+      \item acc\_async\_wait\_all()
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%\begin{frame}<0>{\small Environment Variables}
+%  \begin{itemize}
+%    \item OMP\_NUM\_THREADS
+%    \item OMP\_SCHEDULE
+%    \item OMP\_STACKSIZE
+%    \item OMP\_DYNAMIC
+%    \item OMP\_NESTED
+%    \item OMP\_WAIT\_POLICY
+%    \item more $\cdots$
+%  \end{itemize}
+%\end{frame}
+
+\begin{frame}[fragile]{\small OpenACC kernels directive}
+  \begin{columns}
+    \column{0.65\textwidth}
+    \begin{itemize}
+      \item[C:] {\color{red!90!black}\#pragma acc kernels [clause]}
+      \item[Fortran] {\color{red!90!black}!\$acc kernels [clause]}
+      \item The kernels directive expresses that a region may contain parallelism and the compiler determines what can be safely parallelized.
+      \item The compiler breaks code in the kernel region into a sequence of kernels for execution on the accelerator device.
+      \item For the codes on the right, the compiler identifies 2 parallel loops and generates 2 kernels.
+      \item {\color{red}What is a kernel?} {\color{DarkGreen}A function that runs in parallel on the GPU.}
+      \item When a program encounters a kernels contruct, it will launch a sequence of kernels in order on the device.
+    \end{itemize}
+    \column{0.33\textwidth}
+    \begin{eblock}{}
+      \lstinputlisting[basicstyle=\tiny\ttfamily,language=OmpFortran,firstline=98,lastline=107]{openmp/tmp.f90}
+      \lstinputlisting[basicstyle=\tiny\ttfamily,language=OmpC,firstline=50,lastline=60]{openmp/tmp.c}
+    \end{eblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{\small OpenACC Parallel Directive}
+  \begin{columns}
+    \column{0.65\textwidth}
+    \begin{itemize}
+      \item The {\bf parallel} directive identifies a block of code as having parallelism.
+      \item Compiler generates a parallel kernel for that loop.
+      \item[C:] {\color{red!90!black}\#pragma acc parallel [clauses]}
+      \item[Fortran:] {\color{red!90!black}!\$acc parallel [clauses]}
+    \end{itemize}
+    \column{0.33\textwidth}
+    \begin{eblock}{}
+      \lstinputlisting[basicstyle=\tiny\ttfamily,language=OmpFortran,firstline=127,lastline=136]{openmp/tmp.f90}
+      \lstinputlisting[basicstyle=\tiny\ttfamily,language=OmpC,firstline=61,lastline=71]{openmp/tmp.c}
+    \end{eblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{\small OpenACC Loop Directive}
+  \begin{columns}
+    \column{0.65\textwidth}
+    \begin{itemize}
+      \item Loops are the most likely targets for Parallelizing.
+      \item The Loop directive is used within a parallel or kernels directive indentifying a loop that can be executed on the accelerator device.
+      \item[C:] {\color{red!90!black}\#pragma acc loop [clauses]}
+      \item[Fortran:] {\color{red!90!black}!\$acc loop [clauses]}
+      \item The loop directive can be combined with the enclosing parallel or kernels
+      \item[C:] {\color{red!90!black}\#pragma acc kernels loop [clauses]}
+      \item[Fortran:] {\color{red!90!black}!\$acc parallel loop [clauses]}
+      \item The loop directive clauses can be used to optimize the code. This however requires knowledge of the accelerator device.
+      \item[Clauses:] gang, worker, vector, num\_gangs, num\_workers
+    \end{itemize}
+    \column{0.33\textwidth}
+    \begin{eblock}{}
+      \lstinputlisting[basicstyle=\tiny\ttfamily,language=OmpFortran,firstline=139,lastline=143]{openmp/tmp.f90}
+      \lstinputlisting[basicstyle=\tiny\ttfamily,language=OmpC,firstline=72,lastline=75]{openmp/tmp.c}
+    \end{eblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{\small OpenACC parallel vs. kernels}
+  \begin{columns}
+    \column{0.4\textwidth}
+    \begin{bblock}{PARALLEL}
+      \begin{itemize}
+        \item Requires analysis by programmer to ensure safe parallelism.
+        \item Straightforward path from OpenMP
+      \end{itemize}
+    \end{bblock}
+    \column{0.4\textwidth}
+    \begin{bblock}{KERNELS}
+      \begin{itemize}
+        \item Compiler performs parallel analysis and parallelizes what it believes is safe.
+        \item Can cover larger area of code with single directive.
+      \end{itemize}
+    \end{bblock}
+  \end{columns}
+  \begin{itemize}
+    \item[] Both approaches are equally valid and can perform equally well.
+  \end{itemize}
+\end{frame}
+
+\scriptsize
+\begin{frame}[fragile]
+  \frametitle{\small Compilation}
+  \begin{itemize}
+    \item C:
+    \item[] pgcc -acc [-Minfo=accel] [-ta=nvidia] -o saxpyc\_acc saxpy\_acc.c
+    \item Fortran 90:
+    \item[] pgf90 -acc [-Minfo=accel] [-ta=nvidia] -o saxpyf\_acc saxpy\_acc.f90
+  \end{itemize}
+  \begin{bblock}{Compiler Output}
+    {\fontsize{5}{6}\selectfont
+      \begin{Verbatim}
+[apacheco@mike1 nodataregion]$ pgcc -acc -ta=nvidia,time -Minfo=accel  -o saxpyc_acc saxpy_acc.c
+main:
+     19, Generating copyin(x[0:500000000])
+         Generating copy(y[0:500000000])
+         Generating compute capability 1.0 binary
+         Generating compute capability 2.0 binary
+     21, Loop is parallelizable
+         Accelerator kernel generated
+         21, #pragma acc loop gang, vector(128) /* blockIdx.x threadIdx.x */
+             CC 1.0 : 10 registers; 44 shared, 0 constant, 0 local memory bytes
+             CC 2.0 : 15 registers; 0 shared, 60 constant, 0 local memory bytes
+[apacheco@mike1 nodataregion]$ pgf90 -acc -ta=nvidia,time -Minfo=accel -o saxpyf_acc saxpy_acc.f90
+saxpy:
+     17, Accelerator kernel generated
+         17, CC 1.0 : 7 registers; 40 shared, 4 constant, 0 local memory bytes
+             CC 2.0 : 15 registers; 0 shared, 56 constant, 0 local memory bytes
+         18, !$acc loop gang, vector(256) ! blockidx%x threadidx%x
+     17, Generating copy(y(1:500000000))
+         Generating copyin(x(1:500000000))
+         Generating compute capability 1.0 binary
+         Generating compute capability 2.0 binary
+[apacheco@mike1 nodataregion]$
+      \end{Verbatim}
+    }
+  \end{bblock}
+\end{frame}
+
+\begin{frame}[fragile]{\small Running}
+  \begin{itemize}
+    \item The PGI compiler provides automatic instrumentation when {\color{orange}PGI\_ACC\_TIME=1} at runtime
+    \item You can also obtain automatic instrumentation by using the {\color{orange}-ta=nvidia,time} compiler flag.
+  \end{itemize}
+  \begin{bblock}{}
+    {\fontsize{5}{6}\selectfont
+      \begin{Verbatim}
+[apacheco@mike381 nodataregion]$ ./saxpyc_acc 
+
+Accelerator Kernel Timing data
+/work/apacheco/2013-LONI/openmp/saxpy/nodataregion/saxpy_acc.c
+  main
+    19: region entered 1 time
+        time(us): total=9,195,380 init=7,246,895 region=1,948,485
+                  kernels=58,028 data=1,835,336
+        w/o init: total=1,948,485 max=1,948,485 min=1,948,485 avg=1,948,485
+        21: kernel launched 1 times
+            grid: [65535]  block: [128]
+            time(us): total=58,028 max=58,028 min=58,028 avg=58,028
+SAXPY Time: 9.195481
+[apacheco@mike381 nodataregion]$ ./saxpyf_acc 
+
+Accelerator Kernel Timing data
+/work/apacheco/2013-LONI/openmp/saxpy/nodataregion/saxpy_acc.f90
+  saxpy
+    17: region entered 1 time
+        time(us): total=9,180,978 init=7,254,065 region=1,926,913
+                  kernels=59,013 data=1,923,915
+        w/o init: total=1,926,913 max=1,926,913 min=1,926,913 avg=1,926,913
+        17: kernel launched 1 times
+            grid: [65535]  block: [256]
+            time(us): total=59,013 max=59,013 min=59,013 avg=59,013
+SAXPY Time:        9.181015
+      \end{Verbatim}
+    }
+  \end{bblock}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}
+    \column{0.8\textwidth}
+    \begin{eblock}{}
+      \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Execution& \multicolumn{2}{c|}{C}& \multicolumn{2}{c|}{Fortran} \\
+        \cline{2-5}
+        &  Time & SpeedUp & Time & Speedup \\
+        \hline
+        Serial & 0.511 & & 0.993 & \\
+        OpenMP (16 Threads) & 0.186 & 2.75 & 0.244 & 4.07 \\
+        OpenACC (M2090) & 9.195 & 0.056 & 9.181 & 0.108 \\
+          \hline
+      \end{tabular}
+    \end{eblock}
+  \end{columns}
+  \begin{itemize}
+    \item What's going with OpenACC code?
+    \item Why even bother with OpenACC if performance is so bad?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\small Offloading a Parallel Kernel}
+  \include{kernel}
+\end{frame}
+
+\begin{frame}[fragile]{\small Defining data regions}
+  \begin{itemize}
+    \item The data construct defines a region of code in which GPU arrays remain on the GPU and are shared among all kernels in that region
+  \end{itemize}
+  \begin{columns}
+    \column{9cm}
+  \begin{eblock}{}
+    \begin{columns}
+      \column{3.5cm}
+      \begin{lstlisting}[basicstyle=\tiny\ttfamily,language=OmpFortran]
+!$acc data [clause]
+    !$acc parallel loop
+       ...
+    !$acc end parallel loop
+    ...
+!$acc end data
+      \end{lstlisting}
+      \column{0.5cm}
+      \fontsize{55}{20}\selectfont{\color{tigerspurple}\}}
+      \column{3cm}
+      Arrays used within the data region will remain on the GPU until the end of the data region.
+    \end{columns}
+  \end{eblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{\small Data Clauses}
+  \begin{description}
+    \item[copy(list)] Allocates memory on GPU and copies data from host to GPU when entering region and copies data to the host when exiting region.
+    \item[copyin(list)] Allocates memory on GPU and copies data from host to GPU when entering region.
+    \item[copyout(list)] Allocates memory on GPU and copies data to the host when exiting region.
+    \item[create(list)] Allocates memory on GPU but does not copy.
+    \item[present(list)] Data is already present on GPU from another containing data region.
+  \end{description}
+  \begin{itemize}
+    \item Other clauses: {\color{tigerspurple}present\_or\_copy[in|out]}, {\color{tigerspurple}present\_or\_create}, {\color{tigerspurple}deviceptr}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\small Array Shaping}
+  \begin{itemize}
+    \item Compiler sometime cannot determine size of arrays
+    \begin{itemize}
+      \item Must specify explicitly using the data clauses and array "shape"
+    \end{itemize}
+    \item[C] \texttt{\#pragma acc data copyin(a[0:size]), copyout(b[s/4:3*s/4])}
+    \item[Fortran] \texttt{!\$acc data copyin(a(1:size)), copyout(b(s/4:3*s/4))}
+    \item Note: data clauses can be used on data, parallel or kernels
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\small Update Construct}
+  \begin{itemize}
+    \item Used to update existing data after it has changed in its corresponding copy (e.g. upate device copy after host copy changes).
+    \item Move data from GPU to host, or host to GPU.
+    \item Data movement can be conditional and asynchronous.
+    \item Fortran
+    \item[] \texttt{!\$acc update [clause $\cdots$]}
+    \item C
+    \item[] \texttt{\#pragma acc update [clause $\cdots$]}
+    \item Clause
+    \begin{itemize}
+      \item \texttt{host(list)}
+      \item \texttt{device(list)}
+      \item \texttt{if(expression)}
+      \item \texttt{async(expression)}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{\small SAXPY using data clause}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{eblock}{}
+      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpFortran]{openmp/saxpy/solution/saxpy_acc.f90}
+    \end{eblock}
+    \column{0.5\textwidth}
+    \begin{eblock}{}
+      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpC]{openmp/saxpy/solution/saxpy_acc.c}
+    \end{eblock}
+  \end{columns}
+  \begin{columns}
+    \column{0.8\textwidth}
+    \begin{eblock}{}
+      \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Execution& \multicolumn{2}{c|}{C}& \multicolumn{2}{c|}{Fortran} \\
+        \cline{2-5}
+        &  Time & SpeedUp & Time & Speedup \\
+        \hline
+        Serial & 0.511 & & 0.993 & \\
+        OpenMP (16 Threads) & 0.186 & 2.75 & 0.244 & 4.07 \\
+        OpenACC (M2090) & 0.058 & 8.81 & 0.059 & 16.83 \\
+          \hline
+      \end{tabular}
+    \end{eblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{\small Exercise: Redo Matrix Multiplication Problem}
+  \begin{columns}
+    \column{0.7\textwidth}
+    \begin{eblock}{C}
+      \begin{tabular}{|c|c|c|c|}
+        \hline
+        Execution & Time & SpeedUp & GFlops/s \\
+        \hline
+        Serial & 6.226 &  & 0.964 \\
+        OpenMP 16 CPUs & 0.444 & 14.022 & 13.03 \\
+        OpenACC & 0.175 & 35.577 & 34.265 \\
+        \hline
+      \end{tabular}
+    \end{eblock}
+    \begin{eblock}{Fortran}
+      \begin{tabular}{|c|c|c|c|}
+        \hline
+        Execution & Time & SpeedUp & GFlops/s \\
+        \hline
+        Serial & 7.113 & & 0.844 \\
+        OpenMP 16 CPUs & 0.494 & 14.399 & 12.146 \\
+        OpenACC & 0.257 & 27.677 & 23.346 \\
+        \hline
+      \end{tabular}
+    \end{eblock}
+  \end{columns}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{eblock}{}
+      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpFortran]{openmp/matmul/solution/matmul_acc.f90}
+    \end{eblock}
+    \column{0.5\textwidth}
+    \begin{eblock}{}
+      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpC]{openmp/matmul/solution/matmul_acc.c}
+    \end{eblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{\small Reduction}
+  \begin{itemize}
+    \item Reduction clause is allowed on \textit{parallel} and \textit{loop} constructs
+  \end{itemize}
+  \begin{eblock}{Fortran}
+    \begin{lstlisting}[basicstyle=\tiny\ttfamily,language=OmpFortran]
+!$acc parallel reduction(operation: var)
+  structured block with reduction on var
+!$acc end parallel
+    \end{lstlisting}
+  \end{eblock}
+  \begin{eblock}{C}
+    \begin{lstlisting}[basicstyle=\tiny\ttfamily,language=OmpC]
+#pragma acc kernels reduction(operation: var) {
+  structured block with reduction on var
+}
+    \end{lstlisting}
+  \end{eblock}
+  \begin{itemize}
+    \item Redo Calculation of Pi in OpenACC and compare timing results with serial and OpenMP.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\small Further Speedups}
+  \begin{bblock}{}
+    \begin{itemize}
+      \item OpenACC gives us more detailed control over parallelization
+      \begin{itemize}
+        \item Via \textbf{gang}, \textbf{worker} and \textbf{vector} clauses
+      \end{itemize}
+      \item By understanding more about specific GPU on which you're running, using these clauses may allow better performance.
+      \item By understanding bottlenecks in the code via profiling, we can reorganize the code for even better performance.
+    \end{itemize}
+  \end{bblock}
+\end{frame}
+
+\begin{frame}{\small General Principles: Finding Parallelism in Code}
+  \begin{itemize}
+    \item (Nested) for/do loops are best for parallelization
+    \item Large loop counts are best
+    \item Iterations of loops must be independent of each other
+    \begin{itemize}
+      \item To help compiler: restrict keyword (C), independent clause
+      \item Use subscripted arrays, rather than pointer-indexed arrays
+    \end{itemize}
+    \item Data regions should avoid wasted bandwidth
+    \begin{itemize}
+      \item Can use directive to explicitly control sizes
+    \end{itemize}
+    \item Various annoying things can interfere with accelerated regions.
+    \begin{itemize}
+      \item Function calls within accelerated region must be inlineable.
+      \item No IO
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\small OpenACC: Is it worth it?}
+  \begin{itemize}
+    \item High-level. No involvement of OpenCL, CUDA, etc
+    \item Single source. No forking off a separate GPU code. Compile the same program for accelerators or serial, non-GPU programmers can play along.
+    \item Efficient. Experience shows very favorable comparison to low-level implementations of same algorithms.
+    \item Performance portable. Supports GPU accelreators and co-processors from multiple vendors, current and future versions.
+    \item Incremental. Developers can port and tune parts of their application as resources and profiling dictates. No wholesale rewrite required. Which can be quick.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+    \item[] Lecture derived from slides and presentations by
+    \item Michael Wolfe, PGI
+    \item Jeff Larkin, NVIDIA
+    \item John Urbanic, PSC
+    \item[] Search for OpenACC presentations at the GPU Technology Conference Website for further study \url{http://www.gputechconf.com/gtcnew/on-demand-gtc.php}
+  \end{itemize}
+\end{frame}
+\end{document}
+
