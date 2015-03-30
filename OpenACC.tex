@@ -3,18 +3,83 @@
 {  
   \setbeamertemplate{background canvas}[vertical shading][bottom=blue!5,top=blue!5]
   \setbeamertemplate{navigation symbols}{}%{\insertsectionnavigationsymbol}
-    \usetheme{LSU}
-%  default infolines miniframes shadow sidebar smoothbars smoothtree split tree
-%    \useoutertheme{shadow}
+  \usetheme{LSU}
 }
 
+\usefonttheme{professionalfonts}
+\usefonttheme{serif}
+
 \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
-\usepackage{amsmath,amssymb,amsfonts,subfigure}
-\usepackage{multirow}
+\usepackage{amsmath,amssymb,amsfonts,subfigure,pifont}
+\usepackage{multirow,multicol}
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{colortbl}
+\usepackage{algorithm,algpseudocode}
+\usepackage{etex}
 \usepackage{fancyvrb,listings}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82} 
+\lstset{%
+language=bash,                % the language of the code
+%basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+basicstyle=\fontsize{4.5}{5.5}\selectfont\ttfamily,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+%frame=single,                   % adds a frame around the code
+%rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+%captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%title=\lstname,                   % show the filename of files included with \lstinputlisting;
+% also try caption instead of title
+keywordstyle=\color{blue},          % keyword style
+commentstyle=\color{dkgreen},       % comment style
+stringstyle=\color{mauve},         % string literal style
+escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+morekeywords={*,\dots,elif},              % if you want to add more keywords to the set
+deletekeywords={\dots},              % if you want to delete keywords from the given language
+%morecomment=[l]{//}
+}
+\lstset{%
+language=csh,                % the language of the code
+%basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+basicstyle=\fontsize{4.5}{5.5}\selectfont\ttfamily,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+%frame=single,                   % adds a frame around the code
+%rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%title=\lstname,                   % show the filename of files included with \lstinputlisting;
+% also try caption instead of title
+keywordstyle=\color{blue},          % keyword style
+commentstyle=\color{dkgreen},       % comment style
+stringstyle=\color{mauve},         % string literal style
+escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+morekeywords={*,\dots,elif},              % if you want to add more keywords to the set
+deletekeywords={\dots},              % if you want to delete keywords from the given language
+%morecomment=[l]{//}
+}
+\lstdefinestyle{LINUX}
+{
+%    backgroundcolor=\color{black},
+%    basicstyle=\tiny\ttfamily,
+%    keywordsstyle=\color{blue},
+%    morekeywords={Tutorials,BASH,scripts},
+%    literate={>}{{\textcolor{blue}{>}}}1
+%         {/}{{\textcolor{blue}{/}}}1
+%         {./}{{\textcolor{black}{./ }}}1
+%         {~}{{\textcolor{blue}{\textasciitilde}}}1,
+}
+
 \lstdefinestyle{customc}{
   belowcaptionskip=1\baselineskip,
   breaklines=true,
@@ -23,7 +88,7 @@
   showstringspaces=false,
   basicstyle=\scriptsize\ttfamily,
   keywordstyle=\bfseries\color{green!40!black},
-  commentstyle=\itshape\color{red!90!white},
+  commentstyle=\upshape\color{red!90!white},
   identifierstyle=\color{blue},
   stringstyle=\color{orange},
 }
@@ -62,48 +127,64 @@
     {8}{{{\color{blue}8}}}1
     {9}{{{\color{blue}9}}}1
 }
+
+\algrenewcommand\algorithmicfunction{\textbf{program}}
+\algblockdefx[Program]{Program}{EndProgram}[1]{\textbf{program} \textsc{#1}}[1]{\textbf{end program} \textsc{#1}}
+\algloopdefx[doloop]{Do}[1]{\textbf{do} #1}
+\algcblockdefx[doloop]{If}{Do}{EndDo}
+[1]{\textbf{do} #1}{\textbf{end do}}
+
+
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,automata}
-\usetikzlibrary{calc,fit,shadows,patterns}
+\usetikzlibrary{shapes,arrows,matrix}
+\usetikzlibrary{calc}
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
 \usepackage[latin1]{inputenc}
-\usepackage{colortbl}
 \usepackage[english]{babel}
 \usepackage{hyperref}
 \usepackage[normalem]{ulem}
-% \usepackage{movie15}
+% \usepackage{movie15} 
+
 \hypersetup{
   pdftitle={Introduction to OpenACC},
   pdfauthor={Alexander B. Pacheco, User Services Consultant, Louisiana State University}
-}
-%\usepackage{movie15}
+}                                                         
 \usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
 \setbeamercovered{dynamic}
 \beamersetaveragebackground{DarkBlue!2}
 \beamertemplateballitem
 
-\usepackage[english]{babel}
-\usepackage[latin1]{inputenc}
-\usepackage{times}
-\usepackage{amsmath}
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
 \definecolor{DarkGreen}{rgb}{0.0,0.3,0.0}
-\definecolor{darkgreen}{rgb}{0.0,0.6,0.0}
 \definecolor{Blue}{rgb}{0.0,0.0,0.8} 
 \definecolor{dodgerblue}{rgb}{0.1,0.1,1.0}
 \definecolor{indigo}{rgb}{0.41,0.1,0.0}
 \definecolor{seagreen}{rgb}{0.1,1.0,0.1}
 \DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
-\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+%\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+%\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\smark}{\ding{77}}
+\newcommand*\vardiamond{\textcolor{tigerspurple}{%
+  \ensuremath{\blacklozenge}}}
 \newcommand*\up{\textcolor{green}{%
   \ensuremath{\blacktriangle}}}
 \newcommand*\down{\textcolor{red}{%
   \ensuremath{\blacktriangledown}}}
 \newcommand*\const{\textcolor{darkgray}%
   {\textbf{--}}}
+\newcommand*\enter{\tikz[baseline=-0.5ex] \draw[<-] (0,0) -| (0.5,0.1);}
+\newcommand{\bftt}[1]{\textbf{\texttt{#1}}}
+\newcommand{\lstfortran}[1]{\lstinline[language={[90]Fortran},basicstyle=\footnotesize\ttfamily]|#1|}
+\newcommand{\lstc}[1]{\lstinline[language=C,basicstyle=\footnotesize\ttfamily]|#1|}
+\newcommand{\Verblue}[1]{\Verb[formatcom=\color{blue},commandchars=\\\{\}]!#1!}
+\newcommand{\Verbred}[1]{\Verb[formatcom=\color{red},commandchars=\\\{\},mathescape]|#1|}
+\newcommand{\Verbindigo}[1]{\Verb[formatcom=\color{indigo},fontsize=\fontsize{7.5}{8}\selectfont,commandchars=\\\{\}]!#1!}
 
 \setbeamercolor{uppercol}{fg=white,bg=red!30!black}%
 \setbeamercolor{lowercol}{fg=black,bg=red!15!white}%
@@ -135,16 +216,17 @@
 \setbeamerfont{itemize/enumerate subbody}{size=\scriptsize}
 \setbeamerfont{itemize/enumerate subsubbody}{size=\scriptsize}
 
-\title[OpenMP]{Introduction to OpenACC}
+\title[OpenACC]{Introduction to OpenACC}
 
 
 \author[Alex Pacheco]{\large{Alexander~B.~Pacheco}}
        
-\institute[HPC@LSU - http://www.hpc.lsu.edu] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
+\institute[HPC Training: Spring 2014] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
 
-\date[{June 10-12, 2013\hspace{2cm}}]{\scriptsize{LONI Parallel Programming Workshop\\Louisiana State University\\Baton Rouge\\June 10-12, 2013}}
+\date[\insertframenumber/\inserttotalframenumber\hfill\hspace{1.5cm}]{\scriptsize{HPC Training Spring 2014\\Louisiana State University\\Baton Rouge\\March 26, 2014}}
      
 \subject{Talks}
+\keywords{LONI \& LSU HPC Computing Resources, OpenACC Programming}
 % This is only inserted into the PDF information catalog. Can be left
 % out. 
 
@@ -156,29 +238,39 @@
 % resp., then you can add a logo as follows:
 
 % Main Logo on bottom left
-\pgfdeclareimage[height=0.55cm]{its-logo}{LONI}
-\logo{\pgfuseimage{its-logo}}
+\pgfdeclareimage[height=0.5cm]{institute-logo}{its-logo}
+\logo{\pgfuseimage{institute-logo}}
 % University Logo on top left
 \pgfdeclareimage[height=0.55cm]{university-logo}{LSUGeauxPurp}
 \tllogo{\pgfuseimage{university-logo}}
 % Logo at top right
-\pgfdeclareimage[height=0.5cm]{institute-logo}{its-logo}
-\trlogo{\pgfuseimage{institute-logo}}
+\pgfdeclareimage[height=0.55cm]{its-logo}{LONI}
+\trlogo{\pgfuseimage{its-logo}}
 % Logo at bottom right
-\pgfdeclareimage[height=0.48cm]{hpc-logo}{cct-logo}
+\pgfdeclareimage[height=0.5cm]{hpc-logo}{cct-logo}
 \brlogo{\pgfuseimage{hpc-logo}}
+
+% for the list of parts
+\makeatletter
+%\AtBeginPart{%
+%    \addtocontents{parttoc}{\protect\beamer@partintoc{\the\c@part}{\beamer@partnameshort}{\the\c@page}}%
+%    \frame{\partpage}%
+%}
+\newcommand{\parttableofcontents}{\@starttoc{parttoc}}
+\newcommand{\beamer@partintoc}[3]{#2\par}
+\makeatother
 
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
-%  \AtBeginSection[]
-%  {
-%    \begin{frame}<beamer>
-%     \frametitle{\small{Outline}}
-%      \small
-%      \tableofcontents[currentsection,currentsubsection]
-%    \end{frame}
-%  }
+% \AtBeginSection[]
+% {
+%   \begin{frame}<beamer>
+%    \frametitle{{Outline}}
+%    \scriptsize
+%    \tableofcontents[currentsection,currentsubsection]
+%   \end{frame}
+% }
 
 \begin{document}
 \footnotesize
@@ -186,9 +278,10 @@
 \tikzstyle{every picture}+=[remember picture]
 \frame{\titlepage}
 
-%\begin{frame}[label=toc,squeeze]
-%  \footnotesize
-%  \frametitle{\small{Outline}}
+%\footnotesize
+%\begin{frame}[label=toc,squeeze,allowframebreaks]
+%  \scriptsize
+%  \frametitle{{Outline}}
 %  \tableofcontents
 %\end{frame}
 
@@ -210,7 +303,7 @@
 \begin{frame}{\small What is OpenACC?}
   \begin{bblock}{}
     \begin{itemize}
-      \item OpenACC Application Program Interface describes a collection of compiler directive to specify loops and regions of code in standard C, C++ and Fortran to be offloaded from a host CPU to an attached acclerator.
+      \item OpenACC Application Program Interface describes a collection of compiler directive to specify loops and regions of code in standard C, C++ and Fortran to be offloaded from a host CPU to an attached accelerator.
       \item provides portability across operating systems, host CPUs and accelerators
     \end{itemize}
   \end{bblock}
@@ -274,6 +367,104 @@
   \end{ablock}
 \end{frame}
 
+\begin{frame}{Exercises:}
+  \begin{itemize}
+    \item Did you attend/review the trainings on C/C++ or Modern Fortran?
+    \item Recall the following three exercises:
+    \begin{enumerate}
+      \item SAXPY: Generalized vector addition
+      \item Matrix Multiplication
+      \item Calculate pi by Numerical Integration
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\small SAXPY}
+  \begin{itemize}
+    \item SAXPY is a common operation in computations with vector processors included as part of the BLAS routines
+    \item[] $y\leftarrow \alpha x + y$
+%    \item SAXPY is a combination of scalar multiplication and vector addition
+    \item Write a SAXPY code to multiply a vector with a scalar.
+  \end{itemize}
+  \begin{algorithm}[H]
+    \caption{Pseudo Code for SAXPY}
+    \begin{algorithmic}
+      \Program{saxpy}{}
+      \State $n \gets$ some large number
+      \State $x(1:n) \gets$ some number say, 1
+      \State $y(1:n) \gets$ some other number say, 2
+      \State $a \gets$ some other number ,say, 3
+      \Do{$i \gets 1\cdots n$}
+      \State $y_i \gets y_i + a * x_i$
+      \EndDo
+      \EndProgram{saxpy}
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Matrix Multiplication}
+  \begin{itemize}
+    \item Most Computational code involve matrix operations such as matrix multiplication.
+    \item Consider a matrix {\bf C} which is a product of two matrices {\bf A} and {\bf B}:
+    \item[] Element {\it i,j} of {\bf C} is the dot product of the $i^{th}$ row of {\bf A} and $j^{th}$ column of {\bf B}
+    \item Write a MATMUL code to multiple two matrices.
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.3\textwidth]{../OpenMP/matmul}
+  \end{center}
+
+  \begin{algorithm}[H]
+    \caption{Pseudo Code for MATMUL}
+    \begin{algorithmic}
+      \Program{matmul}{}
+      \State $m,n \gets$ some\,large\,number $\le 1000$
+      \State Define $a_{mn}, b_{nm}, c_{mm}$
+      \State $a_{ij} \gets i+j; b_{ij} \gets i-j; c_{ij} \gets 0$
+      \Do{$i \gets 1\cdots m$}
+      \Do{$j \gets 1\cdots m$}
+      \State $c_{i,j} \gets \sum^{n}_{k=1} a_{i,k}*b_{k,j}$
+      \EndDo
+      \EndDo
+      \EndProgram{matmul}
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Calculate pi by Numerical Integration}
+  \begin{columns}
+    \column{5cm}
+    \begin{itemize}
+      \item We know that
+      \begin{align*}
+        \int^1_0 \dfrac{4.0}{(1+x^2)}\, dx = \pi
+      \end{align*}
+      \item So numerically, we can approxiate pi as the sum of a number of rectangles
+      \begin{align*}
+        \sum^N_{i=0}\,F(x_i)\Delta x \approx \pi
+      \end{align*}
+      \item[] \fontsize{4}{5}{ Meadows et al, A ``hands-on'' introduction to OpenMP, SC09 }
+    \end{itemize}
+    \column{5cm}
+    \begin{center}
+      \includegraphics[width=4cm]{../OpenMP/pi}
+    \end{center}
+  \end{columns}
+
+  \begin{algorithm}[H]
+    \caption{Pseudo Code for Calculating Pi}
+    \begin{algorithmic}
+        \Function{calculate\_pi}{}
+        \State $step \gets 1/n$
+        \State $sum \gets 0$
+        \Do{$i \gets 0\cdots n$}
+        \State $x \gets (i+0.5)*step; sum \gets sum + 4/(1+x^2)$
+        \EndDo
+        \State $pi \gets sum * step$
+        \EndFunction
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
 \begin{frame}[fragile]{\small Simple Example {\color{black}I}}
   \begin{eblock}{Serial Code}
     \lstinputlisting[basicstyle=\fontsize{5}{6}\selectfont\ttfamily,language=OmpFortran]{./openmp/saxpy/solution/saxpy.f90} 
@@ -299,24 +490,26 @@
   \begin{eblock}{Compile}
     {\tiny
       \begin{Verbatim}
-[apacheco@philip038 2013-LONI]$ pgf90 -o saxpy saxpy.f90
-[apacheco@philip038 2013-LONI]$ pgf90 -mp -o saxpy_omp saxpy_omp.f90
-[apacheco@philip038 2013-LONI]$ pgf90 -acc -ta=nvidia -o saxpy_acc saxpy_acc.f90
-[apacheco@philip038 2013-LONI]$ pgf90 -o saxpy_cuda saxpy.cuf
+[apacheco@mike1 2013-LONI]$ pgf90 -o saxpy saxpy.f90
+[apacheco@mike1 2013-LONI]$ pgf90 -mp -o saxpy_omp saxpy_omp.f90
+[apacheco@mike1 2013-LONI]$ pgf90 -acc -ta=nvidia -o saxpy_acc saxpy_acc.f90
+[apacheco@mike1 2013-LONI]$ pgf90 -o saxpy_cuda saxpy.cuf
       \end{Verbatim}
     }
   \end{eblock}
   \begin{eblock}{Speed Up}
-    \begin{tabular}{|cccc|}
-      \hline
-      Algorithm & Device & Time (s) & Speedup \\
-      \hline
-      Serial & Xeon X5650 & 0.231282 & 1\\
-      OpenMP (12 threads) & Xeon X5650 & 0.063231 & 3.6x\\
-      OpenACC & M2070 & 0.014329 & 16.1x\\
-      CUDA & M2070 & 0.006901 & 33.5x\\
-      \hline
-    \end{tabular}
+    \begin{center}
+      \begin{tabular}{|cccc|}
+        \hline
+        Algorithm & Device & Time (s) & Speedup \\
+        \hline
+        Serial & Xeon E5-2670 & 0.986609 & 1\\
+        OpenMP (8 threads) & Xeon E5-2670 & 0.241465 & 4.1x\\
+        OpenACC & M2090 & 0.059418 & 16.6x\\
+        CUDA & M2090 & 0.005205 & 189.5x\\
+        \hline
+      \end{tabular}
+    \end{center}
   \end{eblock}
 \end{frame}
 
@@ -331,7 +524,7 @@
   \end{eblock}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{\small Building Block of OpenACC}
   \begin{eblock}{}
     \begin{itemize}
@@ -339,8 +532,8 @@
         \begin{itemize}
           \item Syntax
             \begin{itemize}
-              \item C/C++: \texttt{\#pragma acc <directive> [clause]}
-              \item Fortran: \texttt{!\$acc <directive> [clause]}
+              \item C/C++: \Verbred{\#pragma acc <directive> [clause]}
+              \item Fortran: \Verbred{!\$acc <directive> [clause]}
             \end{itemize}
           \item Regions
           \item Loops
@@ -354,33 +547,33 @@
   \end{eblock}
 \end{frame}
 
-\begin{frame}{\small Clauses}
+\begin{frame}[fragile]{\small Clauses}
   \begin{itemize}
-    \item if (condition)
-    \item async (expression)
+    \item \Verbred{if (condition)}
+    \item \Verbred{async (expression)}
     \item data management clauses
     \begin{itemize}
-      \item copy($\cdots$),copyin($\cdots$), copyout($\cdots$)
-      \item create($\cdots$), present($\cdots$)
-      \item present\_or\_copy\{,in,out\}($\cdots$) or pcopy\{,in,out\}($\cdots$)
-      \item present\_or\_create($\cdots$) or pcreate($\cdots$)
+      \item \Verbred{copy($\cdots$),copyin($\cdots$), copyout($\cdots$)}
+      \item \Verbred{create($\cdots$), present($\cdots$)}
+      \item \Verbred{present\_or\_copy\{,in,out\}($\cdots$)} or \Verbred{pcopy\{,in,out\}($\cdots$)}
+      \item \Verbred{present\_or\_create($\cdots$)} or \Verbred{pcreate($\cdots$)}
     \end{itemize}
-    \item reduction(operator:list)
+    \item \Verbred{reduction(operator:list)}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\small Runtime Libraries}
+\begin{frame}[fragile]{\small Runtime Libraries}
   \begin{itemize}
     \item System setup routines
     \begin{itemize}
-      \item acc\_init(\textit{acc\_device\_nvidia})
-      \item acc\_set\_device\_type(\textit{acc\_device\_nvidia})
-      \item acc\_set\_device\_num(\textit{acc\_device\_nvidia})
+      \item \Verbred{acc\_init(acc\_device\_nvidia)}
+      \item \Verbred{acc\_set\_device\_type(acc\_device\_nvidia)}
+      \item \Verbred{acc\_set\_device\_num(acc\_device\_nvidia)}
     \end{itemize}
     \item Synchronization routines
     \begin{itemize}
-      \item acc\_async\_wait(int)
-      \item acc\_async\_wait\_all()
+      \item \Verbred{acc\_async\_wait(int)}
+      \item \Verbred{acc\_async\_wait\_all()}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -401,8 +594,8 @@
   \begin{columns}
     \column{0.65\textwidth}
     \begin{itemize}
-      \item[C:] {\color{red!90!black}\#pragma acc kernels [clause]}
-      \item[Fortran] {\color{red!90!black}!\$acc kernels [clause]}
+      \item[C:] \Verbred{\#pragma acc kernels [clause]}
+      \item[Fortran] \Verbred{!\$acc kernels [clause]}
       \item The kernels directive expresses that a region may contain parallelism and the compiler determines what can be safely parallelized.
       \item The compiler breaks code in the kernel region into a sequence of kernels for execution on the accelerator device.
       \item For the codes on the right, the compiler identifies 2 parallel loops and generates 2 kernels.
@@ -417,14 +610,14 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{\small OpenACC Parallel Directive}
+\begin{frame}[fragile]{\small OpenACC Parallel Directive}
   \begin{columns}
     \column{0.65\textwidth}
     \begin{itemize}
       \item The {\bf parallel} directive identifies a block of code as having parallelism.
       \item Compiler generates a parallel kernel for that loop.
-      \item[C:] {\color{red!90!black}\#pragma acc parallel [clauses]}
-      \item[Fortran:] {\color{red!90!black}!\$acc parallel [clauses]}
+      \item[C:] \Verbred{\#pragma acc parallel [clauses]}
+      \item[Fortran:] \Verbred{!\$acc parallel [clauses]}
     \end{itemize}
     \column{0.33\textwidth}
     \begin{eblock}{}
@@ -434,17 +627,17 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{\small OpenACC Loop Directive}
+\begin{frame}[fragile]{\small OpenACC Loop Directive}
   \begin{columns}
     \column{0.65\textwidth}
     \begin{itemize}
       \item Loops are the most likely targets for Parallelizing.
-      \item The Loop directive is used within a parallel or kernels directive indentifying a loop that can be executed on the accelerator device.
-      \item[C:] {\color{red!90!black}\#pragma acc loop [clauses]}
-      \item[Fortran:] {\color{red!90!black}!\$acc loop [clauses]}
+      \item The Loop directive is used within a parallel or kernels directive identifying a loop that can be executed on the accelerator device.
+      \item[C:] \Verbred{\#pragma acc loop [clauses]}
+      \item[Fortran:] \Verbred{!\$acc loop [clauses]}
       \item The loop directive can be combined with the enclosing parallel or kernels
-      \item[C:] {\color{red!90!black}\#pragma acc kernels loop [clauses]}
-      \item[Fortran:] {\color{red!90!black}!\$acc parallel loop [clauses]}
+      \item[C:] \Verbred{\#pragma acc kernels loop [clauses]}
+      \item[Fortran:] \Verbred{!\$acc parallel loop [clauses]}
       \item The loop directive clauses can be used to optimize the code. This however requires knowledge of the accelerator device.
       \item[Clauses:] gang, worker, vector, num\_gangs, num\_workers
     \end{itemize}
@@ -478,39 +671,47 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+  \begin{columns}[t]
+    \column{0.5\textwidth}
+    \lstinputlisting[basicstyle=\fontsize{4}{5}\selectfont\ttfamily,language=OmpFortran]{openmp/saxpy/nodataregion/saxpy_acc.f90} 
+    \column{0.5\textwidth}
+    \lstinputlisting[basicstyle=\fontsize{4}{5}\selectfont\ttfamily,language=OmpC]{openmp/saxpy/nodataregion/saxpy_acc.c} 
+  \end{columns}
+\end{frame}
+
 \scriptsize
 \begin{frame}[fragile]
   \frametitle{\small Compilation}
   \begin{itemize}
-    \item C:
-    \item[] pgcc -acc [-Minfo=accel] [-ta=nvidia] -o saxpyc\_acc saxpy\_acc.c
+    \item C: \Verbindigo{pgcc -acc [-Minfo=accel] [-ta=nvidia] -o saxpyc\_acc saxpy\_acc.c}
     \item Fortran 90:
-    \item[] pgf90 -acc [-Minfo=accel] [-ta=nvidia] -o saxpyf\_acc saxpy\_acc.f90
+    \Verbindigo{pgf90 -acc [-Minfo=accel] [-ta=nvidia] -o saxpyf\_acc saxpy\_acc.f90}
   \end{itemize}
   \begin{bblock}{Compiler Output}
     {\fontsize{5}{6}\selectfont
       \begin{Verbatim}
-[apacheco@mike1 nodataregion]$ pgcc -acc -ta=nvidia,time -Minfo=accel  -o saxpyc_acc saxpy_acc.c
+[apacheco@mike1 nodataregion]$ pgcc -acc -ta=nvidia -Minfo=accel  -o saxpyc_acc saxpy_acc.c
 main:
-     19, Generating copyin(x[0:500000000])
-         Generating copy(y[0:500000000])
+     19, Generating present_or_copyin(x[0:500000000])
+         Generating present_or_copy(y[0:500000000])
+         Generating NVIDIA code
          Generating compute capability 1.0 binary
          Generating compute capability 2.0 binary
+         Generating compute capability 3.0 binary
      21, Loop is parallelizable
          Accelerator kernel generated
          21, #pragma acc loop gang, vector(128) /* blockIdx.x threadIdx.x */
-             CC 1.0 : 10 registers; 44 shared, 0 constant, 0 local memory bytes
-             CC 2.0 : 15 registers; 0 shared, 60 constant, 0 local memory bytes
-[apacheco@mike1 nodataregion]$ pgf90 -acc -ta=nvidia,time -Minfo=accel -o saxpyf_acc saxpy_acc.f90
+[apacheco@mike1 nodataregion]$ pgf90 -acc -ta=nvidia -Minfo=accel -o saxpyf_acc saxpy_acc.f90
 saxpy:
      17, Accelerator kernel generated
-         17, CC 1.0 : 7 registers; 40 shared, 4 constant, 0 local memory bytes
-             CC 2.0 : 15 registers; 0 shared, 56 constant, 0 local memory bytes
          18, !$acc loop gang, vector(256) ! blockidx%x threadidx%x
-     17, Generating copy(y(1:500000000))
-         Generating copyin(x(1:500000000))
+     17, Generating present_or_copy(y(1:500000000))
+         Generating present_or_copyin(x(1:500000000))
+         Generating NVIDIA code
          Generating compute capability 1.0 binary
          Generating compute capability 2.0 binary
+         Generating compute capability 3.0 binary
 [apacheco@mike1 nodataregion]$
       \end{Verbatim}
     }
@@ -520,39 +721,42 @@ saxpy:
 \begin{frame}[fragile]{\small Running}
   \begin{itemize}
     \item The PGI compiler provides automatic instrumentation when {\color{orange}PGI\_ACC\_TIME=1} at runtime
-    \item You can also obtain automatic instrumentation by using the {\color{orange}-ta=nvidia,time} compiler flag.
   \end{itemize}
   \begin{bblock}{}
-    {\fontsize{5}{6}\selectfont
-      \begin{Verbatim}
-[apacheco@mike381 nodataregion]$ ./saxpyc_acc 
+    \begin{Verbatim}[fontsize=\fontsize{5}{6}\selectfont,commandchars=\\\{\}]
+[apacheco@mike407 nodataregion]$ PGI_ACC_TIME=1 ./saxpyc_acc
+SAXPY Time: 6.369176
 
 Accelerator Kernel Timing data
-/work/apacheco/2013-LONI/openmp/saxpy/nodataregion/saxpy_acc.c
-  main
-    19: region entered 1 time
-        time(us): total=9,195,380 init=7,246,895 region=1,948,485
-                  kernels=58,028 data=1,835,336
-        w/o init: total=1,948,485 max=1,948,485 min=1,948,485 avg=1,948,485
-        21: kernel launched 1 times
+/ddnB/work/apacheco/2013-LONI/openmp/saxpy/nodataregion/saxpy_acc.c
+  main  NVIDIA  devicenum=0
+    time(us): 1,029,419
+    19: compute region reached 1 time
+        19: data copyin reached 2 times
+             device time(us): total={\textcolor{red}{667,515}} max=339,175 min=328,340 avg=333,757
+        21: kernel launched 1 time
             grid: [65535]  block: [128]
-            time(us): total=58,028 max=58,028 min=58,028 avg=58,028
-SAXPY Time: 9.195481
-[apacheco@mike381 nodataregion]$ ./saxpyf_acc 
+             device time(us): total={\textcolor{red}{57,999}} max=57,999 min=57,999 avg=57,999
+            elapsed time(us): total={\textcolor{red}{58,014}} max=58,014 min=58,014 avg=58,014
+        25: data copyout reached 1 time
+             device time(us): total={\textcolor{red}{303,905}} max=303,905 min=303,905 avg=303,905
+[apacheco@mike407 nodataregion]$ PGI_ACC_TIME=1 ./saxpyf_acc
+SAXPY Time:        6.488910
 
 Accelerator Kernel Timing data
-/work/apacheco/2013-LONI/openmp/saxpy/nodataregion/saxpy_acc.f90
-  saxpy
-    17: region entered 1 time
-        time(us): total=9,180,978 init=7,254,065 region=1,926,913
-                  kernels=59,013 data=1,923,915
-        w/o init: total=1,926,913 max=1,926,913 min=1,926,913 avg=1,926,913
-        17: kernel launched 1 times
+/ddnB/work/apacheco/2013-LONI/openmp/saxpy/nodataregion/saxpy_acc.f90
+  saxpy  NVIDIA  devicenum=0
+    time(us): 1,018,988
+    17: compute region reached 1 time
+        17: data copyin reached 2 times
+             device time(us): total={\textcolor{red}{655,958}} max=327,991 min=327,967 avg=327,979
+        17: kernel launched 1 time
             grid: [65535]  block: [256]
-            time(us): total=59,013 max=59,013 min=59,013 avg=59,013
-SAXPY Time:        9.181015
-      \end{Verbatim}
-    }
+             device time(us): total={\textcolor{red}{59,148}} max=59,148 min=59,148 avg=59,148
+            elapsed time(us): total={\textcolor{red}{59,165}} max=59,165 min=59,165 avg=59,165
+        21: data copyout reached 1 time
+             device time(us): total={\textcolor{red}{303,882}} max=303,882 min=303,882 avg=303,882
+    \end{Verbatim}
   \end{bblock}
 \end{frame}
 
@@ -566,9 +770,9 @@ SAXPY Time:        9.181015
         \cline{2-5}
         &  Time & SpeedUp & Time & Speedup \\
         \hline
-        Serial & 0.511 & & 0.993 & \\
-        OpenMP (16 Threads) & 0.186 & 2.75 & 0.244 & 4.07 \\
-        OpenACC (M2090) & 9.195 & 0.056 & 9.181 & 0.108 \\
+        Serial & 0.511232 & & 0.969819 & \\
+        OpenMP (8 Threads) & 0.180301 & 2.84 & 0.237585 & 4.08 \\
+        OpenACC (M2090) & 9.211521 & 0.06 & 9.188178 & 0.11 \\
           \hline
       \end{tabular}
     \end{eblock}
@@ -622,49 +826,57 @@ SAXPY Time:        9.181015
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\small Array Shaping}
+\begin{frame}[fragile]{\small Array Shaping}
   \begin{itemize}
     \item Compiler sometime cannot determine size of arrays
     \begin{itemize}
       \item Must specify explicitly using the data clauses and array "shape"
     \end{itemize}
-    \item[C] \texttt{\#pragma acc data copyin(a[0:size]), copyout(b[s/4:3*s/4])}
-    \item[Fortran] \texttt{!\$acc data copyin(a(1:size)), copyout(b(s/4:3*s/4))}
+    \item[C] \Verbred{\#pragma acc data copyin(a[0:size]), copyout(b[s/4:3*s/4])}
+    \item[Fortran] \Verbred{!\$acc data copyin(a(1:size)), copyout(b(s/4:3*s/4))}
     \item Note: data clauses can be used on data, parallel or kernels
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\small Update Construct}
+\begin{frame}[fragile]{\small Update Construct}
   \begin{itemize}
     \item Used to update existing data after it has changed in its corresponding copy (e.g. upate device copy after host copy changes).
     \item Move data from GPU to host, or host to GPU.
     \item Data movement can be conditional and asynchronous.
     \item Fortran
-    \item[] \texttt{!\$acc update [clause $\cdots$]}
+    \item[] \Verbred{!\$acc update [clause $\cdots$]}
     \item C
-    \item[] \texttt{\#pragma acc update [clause $\cdots$]}
+    \item[] \Verbred{\#pragma acc update [clause $\cdots$]}
     \item Clause
     \begin{itemize}
-      \item \texttt{host(list)}
-      \item \texttt{device(list)}
-      \item \texttt{if(expression)}
-      \item \texttt{async(expression)}
+      \item \Verbred{host(list)}
+      \item \Verbred{device(list)}
+      \item \Verbred{if(expression)}
+      \item \Verbred{async(expression)}
     \end{itemize}
   \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+  \begin{columns}[t]
+    \column{0.5\textwidth}
+    \lstinputlisting[basicstyle=\fontsize{4}{5}\selectfont\ttfamily,language=OmpFortran]{openmp/saxpy/solution/saxpy_acc.f90} 
+    \column{0.5\textwidth}
+    \lstinputlisting[basicstyle=\fontsize{4}{5}\selectfont\ttfamily,language=OmpC]{openmp/saxpy/solution/saxpy_acc.c} 
+  \end{columns}
+\end{frame}
 
 \begin{frame}{\small SAXPY using data clause}
-  \begin{columns}
-    \column{0.5\textwidth}
-    \begin{eblock}{}
-      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpFortran]{openmp/saxpy/solution/saxpy_acc.f90}
-    \end{eblock}
-    \column{0.5\textwidth}
-    \begin{eblock}{}
-      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpC]{openmp/saxpy/solution/saxpy_acc.c}
-    \end{eblock}
-  \end{columns}
+%  \begin{columns}
+%    \column{0.5\textwidth}
+%    \begin{eblock}{}
+%      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpFortran]{openmp/saxpy/solution/saxpy_acc.f90}
+%    \end{eblock}
+%    \column{0.5\textwidth}
+%    \begin{eblock}{}
+%      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpC]{openmp/saxpy/solution/saxpy_acc.c}
+%    \end{eblock}
+%  \end{columns}
   \begin{columns}
     \column{0.8\textwidth}
     \begin{eblock}{}
@@ -674,16 +886,16 @@ SAXPY Time:        9.181015
         \cline{2-5}
         &  Time & SpeedUp & Time & Speedup \\
         \hline
-        Serial & 0.511 & & 0.993 & \\
-        OpenMP (16 Threads) & 0.186 & 2.75 & 0.244 & 4.07 \\
-        OpenACC (M2090) & 0.058 & 8.81 & 0.059 & 16.83 \\
+        Serial & 0.510000 & & 0.986609 & \\
+        OpenMP (8 Threads) & 0.179959 & 2.83 & 0.241465 & 4.09 \\
+        OpenACC (M2090) & 0.058131 & 8.77 & 0.059418 & 16.61 \\
           \hline
       \end{tabular}
     \end{eblock}
   \end{columns}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{\small Exercise: Redo Matrix Multiplication Problem}
+\begin{frame}{\small Exercise: Matrix Multiplication}
   \begin{columns}
     \column{0.7\textwidth}
     \begin{eblock}{C}
@@ -691,9 +903,10 @@ SAXPY Time:        9.181015
         \hline
         Execution & Time & SpeedUp & GFlops/s \\
         \hline
-        Serial & 6.226 &  & 0.964 \\
-        OpenMP 16 CPUs & 0.444 & 14.022 & 13.03 \\
-        OpenACC & 0.175 & 35.577 & 34.265 \\
+        Serial & 6.227 &  & 0.964 \\
+        OpenMP (8 Threads) & 0.823 & 7.566 & 7.290 \\
+        OpenMP (16 Threads) & 0.445 & 13.993 & 13.493 \\
+        OpenACC & 0.188 & 33.122 & 31.917 \\
         \hline
       \end{tabular}
     \end{eblock}
@@ -702,26 +915,27 @@ SAXPY Time:        9.181015
         \hline
         Execution & Time & SpeedUp & GFlops/s \\
         \hline
-        Serial & 7.113 & & 0.844 \\
-        OpenMP 16 CPUs & 0.494 & 14.399 & 12.146 \\
-        OpenACC & 0.257 & 27.677 & 23.346 \\
+        Serial & 7.112 & & 0.844 \\
+        OpenMP (8 Threads) & 0.931 & 7.639 & 6.445 \\
+        OpenMP (16 Threads) & 0.494 & 14.397 & 12.146 \\
+        OpenACC & 0.214 & 33.234 & 28.037 \\
         \hline
       \end{tabular}
     \end{eblock}
   \end{columns}
-  \begin{columns}
-    \column{0.5\textwidth}
-    \begin{eblock}{}
-      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpFortran]{openmp/matmul/solution/matmul_acc.f90}
-    \end{eblock}
-    \column{0.5\textwidth}
-    \begin{eblock}{}
-      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpC]{openmp/matmul/solution/matmul_acc.c}
-    \end{eblock}
-  \end{columns}
+%  \begin{columns}
+%    \column{0.5\textwidth}
+%    \begin{eblock}{}
+%      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpFortran]{openmp/matmul/solution/matmul_acc.f90}
+%    \end{eblock}
+%    \column{0.5\textwidth}
+%    \begin{eblock}{}
+%      \lstinputlisting[basicstyle=\fontsize{3}{3.5}\selectfont\ttfamily,language=OmpC]{openmp/matmul/solution/matmul_acc.c}
+%    \end{eblock}
+%  \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{\small Reduction}
+\begin{frame}[fragile,allowframebreaks]{\small Reduction}
   \begin{itemize}
     \item Reduction clause is allowed on \textit{parallel} and \textit{loop} constructs
   \end{itemize}
@@ -739,9 +953,31 @@ SAXPY Time:        9.181015
 }
     \end{lstlisting}
   \end{eblock}
-  \begin{itemize}
-    \item Redo Calculation of Pi in OpenACC and compare timing results with serial and OpenMP.
-  \end{itemize}
+
+  \begin{eblock}{}
+    \begin{center}
+      \begin{tabular}{|c|c|c|}
+        \hline
+        \multicolumn{3}{|c|}{Fortran}\\
+        \hline
+        Execution & Time & SpeedUp \\
+        \hline
+        Serial & 133.782 & 1 \\
+        OpenMP (8 Threads) & 17.303 & 7.73 \\
+        OpenACC & 0.149 & 897.87 \\
+        \hline
+        \multicolumn{3}{|c|}{C}\\
+        \hline
+        Execution & Time & SpeedUp \\
+        \hline
+        Serial & 134.214 & 1 \\
+        OpenMP (8 Threads) & 17.3379 & 7.74 \\
+        OpenACC & 0.151 & 888.83 \\
+        \hline
+        
+      \end{tabular}
+    \end{center}
+  \end{eblock}
 \end{frame}
 
 \begin{frame}{\small Further Speedups}
@@ -796,6 +1032,93 @@ SAXPY Time:        9.181015
     \item John Urbanic, PSC
     \item[] Search for OpenACC presentations at the GPU Technology Conference Website for further study \url{http://www.gputechconf.com/gtcnew/on-demand-gtc.php}
   \end{itemize}
+\end{frame}
+
+\setcounter{algorithm}{0}
+\begin{frame}[allowframebreaks]{Exercise 1: Calculate pi by Numerical Integration}
+  \begin{columns}
+    \column{5cm}
+    \begin{itemize}
+      \item We know that
+      \begin{align*}
+        \int^1_0 \dfrac{4.0}{(1+x^2)}\, dx = \pi
+      \end{align*}
+      \item So numerically, we can approxiate pi as the sum of a number of rectangles
+      \begin{align*}
+        \sum^N_{i=0}\,F(x_i)\Delta x \approx \pi
+      \end{align*}
+      \item[] \fontsize{4}{5}{ Meadows et al, A ``hands-on'' introduction to OpenMP, SC09 }
+    \end{itemize}
+    \column{5cm}
+    \begin{center}
+      \includegraphics[width=4cm]{../OpenMP/pi}
+    \end{center}
+  \end{columns}
+
+  \begin{algorithm}[H]
+    \caption{Pseudo Code for Calculating Pi}
+    \begin{algorithmic}
+        \Function{calculate\_pi}{}
+        \State $step \gets 1/n$
+        \State $sum \gets 0$
+        \Do{$i \gets 0\cdots n$}
+        \State $x \gets (i+0.5)*step; sum \gets sum + 4/(1+x^2)$
+        \EndDo
+        \State $pi \gets sum * step$
+        \EndFunction
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}{Exercise 2: SAXPY}
+  \begin{itemize}
+    \item SAXPY is a common operation in computations with vector processors included as part of the BLAS routines
+    \item[] $y\leftarrow \alpha x + y$
+%    \item SAXPY is a combination of scalar multiplication and vector addition
+    \item Write a SAXPY code to multiply a vector with a scalar.
+  \end{itemize}
+  \begin{algorithm}[H]
+    \caption{Pseudo Code for SAXPY}
+    \begin{algorithmic}
+      \Program{saxpy}{}
+      \State $n \gets$ some large number
+      \State $x(1:n) \gets$ some number say, 1
+      \State $y(1:n) \gets$ some other number say, 2
+      \State $a \gets$ some other number ,say, 3
+      \Do{$i \gets 1\cdots n$}
+      \State $y_i \gets y_i + a * x_i$
+      \EndDo
+      \EndProgram{saxpy}
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Exercise 3: Matrix Multiplication}
+  \begin{itemize}
+    \item Most Computational code involve matrix operations such as matrix multiplication.
+    \item Consider a matrix {\bf C} which is a product of two matrices {\bf A} and {\bf B}:
+    \item[] Element {\it i,j} of {\bf C} is the dot product of the $i^{th}$ row of {\bf A} and $j^{th}$ column of {\bf B}
+    \item Write a MATMUL code to multiple two matrices.
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.3\textwidth]{../OpenMP/matmul}
+  \end{center}
+
+  \begin{algorithm}[H]
+    \caption{Pseudo Code for MATMUL}
+    \begin{algorithmic}
+      \Program{matmul}{}
+      \State $m,n \gets$ some\,large\,number $\le 1000$
+      \State Define $a_{mn}, b_{nm}, c_{mm}$
+      \State $a_{ij} \gets i+j; b_{ij} \gets i-j; c_{ij} \gets 0$
+      \Do{$i \gets 1\cdots m$}
+      \Do{$j \gets 1\cdots m$}
+      \State $c_{i,j} \gets \sum^{n}_{k=1} a_{i,k}*b_{k,j}$
+      \EndDo
+      \EndDo
+      \EndProgram{matmul}
+    \end{algorithmic}
+  \end{algorithm}
 \end{frame}
 \end{document}
 
